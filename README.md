@@ -3,9 +3,9 @@
 # Eaze Code Challenge 
 This repo is mainly for Order Volume Prediction (Q5) part and documentation + thought process for all the challenges.
 
-## Dependencies / Config
+## Dependencies + Compiler Installation
 
-For Windows10 instructions to install `fbprophet` through `conda`:
+For Windows10 instructions :
 
 ##### 1. Install C++ Compiler : mingw-w64
   ```
@@ -22,6 +22,7 @@ For Windows10 instructions to install `fbprophet` through `conda`:
   ```
   pip install fbprophet
   ```
+For more detail - See [here](https://facebook.github.io/prophet/docs/installation.html).
 
 ## Licensing
 
