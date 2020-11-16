@@ -5,7 +5,7 @@ from fbprophet import Prophet
 from matplotlib import pyplot
 
 
-def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
+def forecast_volume(data_file, days_forward):
   """
   Forecast hourly order volume based on days_forward.
 
@@ -13,9 +13,8 @@ def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
   :param days_forward:  ( Integer ) Number of days forward.
   :return:              ( DataFrame ) Forecast Timestamp + Predicted Order Volumes.
   """
-
   # Read input data
-  hourly_volume_df = pd.read_csv(f"{os.getcwd()}/../data/{data_file}")
+  hourly_volume_df = pd.read_csv(f"{os.getcwd()}/../data/{data_file}", usecols = ["order_hour","num_orders"])
   # Convert order_hour into datetime
   hourly_volume_df["order_hour"] = pd.to_datetime(hourly_volume_df["order_hour"])
   # Specifics for Prophet : Timestamp = ds and input val = y
@@ -42,10 +41,36 @@ def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
 
   return forecast_ds_volume_df
 
-# >>>>>>>>>>>>>>>>> EXAMPLE >>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>> MAIN >>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>> Params
+# Number of days forward to forecast. Default to 1 ( day ).
+NEW_NUM_DAYS_FORWARD = 2
+# Input file that consists of "order_hour" + "num_orders"
+NEW_DATA_FILE_NAME = "hourly_volume.csv"
 
-# Number of days forward to forecast
-NUM_DAYS_FORWARD = 2
-# Forecast Hourly Volume + Output to excel sheet under data folder
-forecast_orders = forecast_volume(data_file="hourly_volume.csv", days_forward=NUM_DAYS_FORWARD)
+# >>>>> Default Vals
+NUM_DAYS_FORWARD = 1
+DATA_FILE_NAME = "hourly_volume.csv"
+
+# >>>> Sanity Check
+# Ensure 2 necessary column names are within the 'new' input file before overwriting the default one
+new_data_file = pd.read_csv(f"{os.getcwd()}/../data/{NEW_DATA_FILE_NAME}")
+# New Data File Column Names
+new_data_file_columns = list(new_data_file.columns)
+# Check 2 needed column within the new data file
+if "order_hour" in new_data_file_columns and "num_orders" in new_data_file_columns:
+  # Overwrite default file name when new file has valid columns
+  DATA_FILE_NAME = NEW_DATA_FILE_NAME
+
+# Check NUM_DAYS_FORWARD is valid number
+try:
+  days_num = int(NEW_NUM_DAYS_FORWARD)
+except ValueError:
+  pass
+else:
+  NUM_DAYS_FORWARD = int(NEW_NUM_DAYS_FORWARD)
+
+# Forecast Hourly Volume
+forecast_orders = forecast_volume(data_file=DATA_FILE_NAME, days_forward=NUM_DAYS_FORWARD)
+# Forecast Output to Excel under 'data' folder
 forecast_orders.to_excel(f"{os.getcwd()}/../data/hourly_forecast_volume.xlsx", index=False)
