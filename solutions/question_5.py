@@ -11,7 +11,7 @@ def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
 
   :param data_file:     ( String ) Input CSV file w/ order hours + number of orders.
   :param days_forward:  ( Integer ) Number of days forward.
-  :return:              ( DataFrame ) Forecast Timestamp + Predicted Order Volumes
+  :return:              ( DataFrame ) Forecast Timestamp + Predicted Order Volumes.
   """
 
   # Read input data
@@ -34,7 +34,7 @@ def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
   # Set title
   pyplot.title("Order Volume")
   # Display graph
-  pyplot.show()
+  # pyplot.show()
   # Get forecast Timestamp and predict order volumes
   forecast_ds_volume_df = forecast_vol[["ds", "yhat"]].copy()
   # Rename ds to order_hour and yhat to pred_order_volume
@@ -46,5 +46,6 @@ def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
 
 # Number of days forward to forecast
 NUM_DAYS_FORWARD = 2
-# Forecast Hourly Volume
-forecast_volume(data_file="hourly_volume.csv", days_forward=NUM_DAYS_FORWARD)
+# Forecast Hourly Volume + Output to excel sheet under data folder
+forecast_orders = forecast_volume(data_file="hourly_volume.csv", days_forward=NUM_DAYS_FORWARD)
+forecast_orders.to_excel(f"{os.getcwd()}/../data/hourly_forecast_volume.xlsx", index=False)
