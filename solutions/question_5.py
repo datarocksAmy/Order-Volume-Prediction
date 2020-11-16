@@ -1,9 +1,11 @@
+import os
+
 import pandas as pd
 from fbprophet import Prophet
 from matplotlib import pyplot
 
 
-def forecast_volume(data_file: str, days_forward: int):
+def forecast_volume(data_file="hourly_volume.csv", days_forward=1):
   """
   Forecast hourly order volume based on days_forward.
 
@@ -13,7 +15,7 @@ def forecast_volume(data_file: str, days_forward: int):
   """
 
   # Read input data
-  hourly_volume_df = pd.read_csv(f"../data/{data_file}")
+  hourly_volume_df = pd.read_csv(f"{os.getcwd()}/../data/{data_file}")
   # Convert order_hour into datetime
   hourly_volume_df["order_hour"] = pd.to_datetime(hourly_volume_df["order_hour"])
   # Specifics for Prophet : Timestamp = ds and input val = y
@@ -40,7 +42,7 @@ def forecast_volume(data_file: str, days_forward: int):
 
   return forecast_ds_volume_df
 
-# >>>>>>>>>>>>>>>>> MAIN >>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>> EXAMPLE >>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Number of days forward to forecast
 NUM_DAYS_FORWARD = 2
