@@ -20,6 +20,9 @@ For Windows10 instructions :
   ```
 ##### 3. Install Prophet
   ```
+  conda install -c conda-forge fbprophet.
+  ```
+  ```
   pip install fbprophet
   ```
 For more detail - See [here](https://facebook.github.io/prophet/docs/installation.html).
