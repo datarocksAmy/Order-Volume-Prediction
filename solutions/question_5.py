@@ -20,7 +20,7 @@ def forecast_volume(data_file, days_forward):
   # Specifics for Prophet : Timestamp = ds and input val = y
   hourly_volume_df.rename(columns={"order_hour": "ds", "num_orders": "y"}, inplace=True)
   # Initiate Prophet w/ multiplicative mode
-  prophet_model = Prophet(seasonality_mode='multiplicative')
+  prophet_model = Prophet(seasonality_mode="multiplicative", daily_seasonality=True)
   # Fit Hourly Volume Data
   prophet_model.fit(hourly_volume_df)
   # Set forecast in hourly granularity
@@ -28,7 +28,11 @@ def forecast_volume(data_file, days_forward):
   # Forecast days_forward on hourly order volume
   forecast_vol = prophet_model.predict(future)
   # Visualize model components and forecast output
-  prophet_model.plot_components(forecast_vol)
+  fig = prophet_model.plot_components(forecast_vol)
+  # Rename x labels to corresponding time breakdown
+  fig.get_children()[1].set_xlabel("order date")
+  fig.get_children()[2].set_xlabel("order day")
+  fig.get_children()[3].set_xlabel("order hour")
   prophet_model.plot(forecast_vol, xlabel="Order Time", ylabel="Order Volume")
   # Set title
   pyplot.title("Order Volume")
