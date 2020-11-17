@@ -20,7 +20,7 @@ def forecast_volume(data_file, days_forward):
   # Specifics for Prophet : Timestamp = ds and input val = y
   hourly_volume_df.rename(columns={"order_hour": "ds", "num_orders": "y"}, inplace=True)
   # Initiate Prophet w/ multiplicative mode
-  prophet_model = Prophet(seasonality_mode="multiplicative", daily_seasonality=True)
+  prophet_model = Prophet(seasonality_mode="multiplicative")
   # Fit Hourly Volume Data
   prophet_model.fit(hourly_volume_df)
   # Set forecast in hourly granularity
