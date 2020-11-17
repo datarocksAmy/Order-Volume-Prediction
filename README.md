@@ -2,7 +2,7 @@
 
 # Eaze Code Challenge 
 This repo is mainly for Order Volume Prediction (Q5) part and documentation + thought process for all the challenges. <br>
-Details / documentation of each questions can be found on the [wiki page](https://github.com/datarocksAmy/Order-Volume-Prediction/wiki).
+📖 Details / documentation of each questions can be found on the [wiki page](https://github.com/datarocksAmy/Order-Volume-Prediction/wiki).
 
 ## Dependencies + Compiler Installation
 
